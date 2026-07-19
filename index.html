@@ -147,7 +147,7 @@ tr:hover td{background:#F5F9FF}
 <div class="header">
   <div>
     <div class="header-title"><i class="ti ti-chart-line"></i> Product Performance Dashboard — Google</div>
-    <div class="header-sub">BeBodyWise · Mar–Jun 2026</div>
+    <div class="header-sub" id="headerSub">BeBodyWise · Mar–Jun 2026</div>
   </div>
   <span class="badge-live">LIVE DATA</span>
 </div><div class="tab-bar">
@@ -520,6 +520,27 @@ function msSyncSelectedClasses(fid){
   });
 }
 
+function syncDateRangeToSelectedMonths(){
+  // When one or more Months are selected, auto-expand the Date Range to
+  // cover the actual data span of those months (not just calendar bounds,
+  // since e.g. the current month may not have data through its last day).
+  var sel=MS_SEL.fMonth;
+  if(sel.size===0 || typeof RAW==='undefined' || !RAW) return; // leave Date Range untouched if no month filter active
+
+  var monthsSel=Array.from(sel).map(function(v){return String(v);});
+  var matching=RAW.filter(function(r){return monthsSel.indexOf(String(r.m))>=0;});
+  if(!matching.length) return;
+
+  var minD=matching.reduce(function(a,r){return r.d<a?r.d:a;},matching[0].d);
+  var maxD=matching.reduce(function(a,r){return r.d>a?r.d:a;},matching[0].d);
+
+  var dfEl=document.getElementById('dateFrom');
+  var dtEl=document.getElementById('dateTo');
+  if(dfEl) dfEl.value=minD;
+  if(dtEl) dtEl.value=maxD;
+  updateDateRangeInfo();
+}
+
 function msToggle(fid,el,sfx){
   sfx=sfx||'';
   var v=el.getAttribute('data-val');
@@ -528,6 +549,7 @@ function msToggle(fid,el,sfx){
   else{sel.add(v);}
   msSyncSelectedClasses(fid);
   msUpdateDisplay(fid);
+  if(fid==='fMonth') syncDateRangeToSelectedMonths();
   refresh();
 }
 function msAll(fid,sfx){
@@ -537,12 +559,17 @@ function msAll(fid,sfx){
     MS_SEL[fid].add(el.getAttribute('data-val'));
   });
   msSyncSelectedClasses(fid);
-  msUpdateDisplay(fid);refresh();
+  msUpdateDisplay(fid);
+  if(fid==='fMonth') syncDateRangeToSelectedMonths();
+  refresh();
 }
 function msClear(fid,sfx){
   MS_SEL[fid].clear();
   msSyncSelectedClasses(fid);
-  msUpdateDisplay(fid);refresh();
+  msUpdateDisplay(fid);
+  // Note: clearing Month intentionally does NOT reset Date Range —
+  // the person may have set a custom range independently of Month.
+  refresh();
 }
 function msSearch(input,fid){
   var q=input.value.toLowerCase();
@@ -940,7 +967,7 @@ function renderVidTable(){
   rows.forEach(function(r){
     var tr=document.createElement('tr');
     var roasCls=r._roas>=1?'chip-pos':'chip-neg';
-    tr.innerHTML='<td style="font-size:12px;white-space:normal;word-break:break-word">'+r.ti+'</td>'
+    tr.innerHTML='<td style="font-size:12px;white-space:normal;word-break:break-word;cursor:pointer;color:#1A56DB" onclick="expandVideoChart(\''+r.vi.replace(/'/g,"\\'")+'\')" title="Click to see day-on-day Spend &amp; ROAS">'+r.ti+'</td>'
       +'<td><a href="'+r.li+'" target="_blank" style="color:#378ADD;font-size:12px;display:flex;align-items:center;gap:4px"><i class="ti ti-brand-youtube" style="font-size:14px;color:#FF0000"></i> Watch</a></td>'
       +'<td>₹'+fmtN(r.co,1)+'</td>'
       +'<td>'+r._ctr.toFixed(2)+'%</td>'
@@ -999,6 +1026,22 @@ function _initDash(){
     return{d:r[0],m:r[1],ct:m.ct[r[2]],ca:m.ca[r[3]],p:m.p[r[4]],t:m.t[r[5]],co:r[6],i:r[7],cl:r[8],cv:r[9],cvl:r[10]};
   });
 })();
+
+  (function(){
+    // Keep the header subtitle's date range accurate automatically, based on the real data,
+    // instead of a hardcoded string that goes stale every time new months of data are added.
+    if(window.RAW && window.RAW.length){
+      var MONTH_SHORT={1:'Jan',2:'Feb',3:'Mar',4:'Apr',5:'May',6:'Jun',7:'Jul',8:'Aug',9:'Sep',10:'Oct',11:'Nov',12:'Dec'};
+      var minD=window.RAW.reduce(function(a,r){return r.d<a?r.d:a;},window.RAW[0].d);
+      var maxD=window.RAW.reduce(function(a,r){return r.d>a?r.d:a;},window.RAW[0].d);
+      var minParts=minD.split('-'), maxParts=maxD.split('-');
+      var minLabel=MONTH_SHORT[parseInt(minParts[1],10)];
+      var maxLabel=MONTH_SHORT[parseInt(maxParts[1],10)];
+      var year=maxParts[0];
+      var sub=document.getElementById('headerSub');
+      if(sub) sub.textContent='BeBodyWise · '+minLabel+'–'+maxLabel+' '+year;
+    }
+  })();
 
   (function(){
   var m=_VD.meta;
@@ -1418,6 +1461,54 @@ function closeChartModal(e){
   document.getElementById('chartModal').classList.remove('open');
   document.body.style.overflow='';
   if(modalChart){modalChart.destroy();modalChart=null;}
+}
+
+function expandVideoChart(vi){
+  if(typeof VID_RAW==='undefined' || !VID_RAW) return;
+  var filtered=getVidFiltered();
+  var rows=filtered.filter(function(r){return r.vi===vi;});
+  if(!rows.length) return;
+
+  var title=rows[0].ti;
+
+  // Aggregate by day
+  var byDay={};
+  rows.forEach(function(r){
+    if(!byDay[r.d]) byDay[r.d]={d:r.d,co:0,cvl:0};
+    byDay[r.d].co+=r.co;
+    byDay[r.d].cvl+=r.cvl;
+  });
+  var days=Object.keys(byDay).sort();
+  var labels=days.map(function(d){return d.slice(5);});
+  var costData=days.map(function(d){return Math.round(byDay[d].co);});
+  var roasData=days.map(function(d){return byDay[d].co>0?parseFloat((byDay[d].cvl/byDay[d].co).toFixed(2)):0;});
+
+  document.getElementById('modalTitle').innerHTML=title;
+  document.getElementById('modalLegend').innerHTML=
+    '<div class="leg-item"><div class="leg-dot" style="background:#7F77DD"></div>Cost (bar)</div>'+
+    '<div class="leg-item"><div class="leg-dot" style="background:#EF9F27"></div>ROAS (line)</div>';
+  document.getElementById('chartModal').classList.add('open');
+  document.body.style.overflow='hidden';
+
+  if(modalChart){modalChart.destroy();modalChart=null;}
+
+  var grid='rgba(0,0,0,0.06)';var tick='#aaa';
+  modalChart=new Chart(document.getElementById('modalCanvas'),{
+    type:'bar',
+    data:{labels:labels,datasets:[
+      {label:'Cost',data:costData,backgroundColor:'rgba(127,119,221,0.45)',borderColor:'#7F77DD',borderWidth:1,borderRadius:3,yAxisID:'y',order:2},
+      {label:'ROAS',data:roasData,type:'line',borderColor:'#EF9F27',backgroundColor:'rgba(239,159,39,0)',tension:.35,pointRadius:3,pointBackgroundColor:'#EF9F27',borderWidth:2,yAxisID:'y1',order:1}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:{color:grid},ticks:{color:tick,font:{size:11},maxRotation:45}},
+        y:{grid:{color:grid},ticks:{color:tick,font:{size:11}},title:{display:true,text:'Cost ₹',color:'#aaa',font:{size:11}}},
+        y1:{position:'right',grid:{drawOnChartArea:false},ticks:{color:tick,font:{size:11},callback:function(v){return parseFloat(v).toFixed(2)+'x';}},title:{display:true,text:'ROAS',color:'#aaa',font:{size:11}}}
+      }
+    }
+  });
 }
 
 document.addEventListener('keydown',function(e){
