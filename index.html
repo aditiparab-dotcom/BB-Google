@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
 <title>Product Performance Dashboard — Google</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.12.0/dist/tabler-icons.min.css">
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.12.0/dist/tabler-icons.min.css" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -135,18 +134,27 @@ tr:hover td{background:#F5F9FF}
 .chart-modal-header{background:#1A56DB;color:#fff;padding:14px 18px;border-radius:14px 14px 0 0;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:700;}
 .chart-modal-legend{padding:10px 18px 0;display:flex;gap:14px;flex-wrap:wrap;}
 
+.tab-bar{display:flex;gap:4px;padding:0 24px;background:#1A56DB;}
+.tab-btn{background:none;border:none;color:#BFDBFE;font-size:13px;font-weight:600;padding:12px 20px;cursor:pointer;border-bottom:3px solid transparent;display:flex;align-items:center;gap:7px;transition:color .15s,border-color .15s;}
+.tab-btn:hover{color:#fff;}
+.tab-btn.active{color:#fff;border-bottom:3px solid #fff;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
 </style>
 </head>
 <body>
 <div class="header">
   <div>
     <div class="header-title"><i class="ti ti-chart-line"></i> Product Performance Dashboard — Google</div>
-    <div class="header-sub">BeBodyWise &middot; Mar–Jun 2026</div>
+    <div class="header-sub">BeBodyWise · Mar–Jun 2026</div>
   </div>
   <span class="badge-live">LIVE DATA</span>
+</div><div class="tab-bar">
+  <button class="tab-btn active" id="tabBtn-performance" onclick="switchTab('performance')"><i class="ti ti-chart-line"></i> Performance</button>
+  <button class="tab-btn" id="tabBtn-creatives" onclick="switchTab('creatives')"><i class="ti ti-player-play"></i> Creatives</button>
 </div>
-<div id="_errBanner" style="display:none;background:#FEE2E2;color:#991B1B;padding:8px 16px;font-size:12px;font-family:monospace"></div>
-<div class="wrap">
+<div id="_errBanner" style="display:none;background:#FEE2E2;color:#991B1B;padding:8px 16px;font-size:12px;font-family:monospace"></div><div class="tab-panel active" id="tabPanel-performance"><div class="wrap">
   <div class="filters">
     <div class="filter-group ms-wrap" id="ms-wrap-fMonth">
       <label>Month</label>
@@ -155,7 +163,7 @@ tr:hover td{background:#F5F9FF}
         <i class="ti ti-chevron-down ms-arrow" id="ms-arr-fMonth"></i>
       </div>
       <div class="ms-dropdown" id="ms-dd-fMonth">
-        <div class="ms-search-wrap"><input class="ms-search" placeholder="Search..." oninput="msSearch(this,'fMonth')" onclick="event.stopPropagation()"></div>
+        <div class="ms-search-wrap"><input class="ms-search" onclick="event.stopPropagation()" oninput="msSearch(this,'fMonth')" placeholder="Search..."/></div>
         <div class="ms-actions"><span onclick="msAll('fMonth')">Select all</span><span onclick="msClear('fMonth')">Clear</span></div>
         <div class="ms-list" id="ms-list-fMonth"><div class="ms-item" data-val="3" onclick="msToggle('fMonth',this)">March</div><div class="ms-item" data-val="4" onclick="msToggle('fMonth',this)">April</div><div class="ms-item" data-val="5" onclick="msToggle('fMonth',this)">May</div><div class="ms-item" data-val="6" onclick="msToggle('fMonth',this)">June</div></div>
       </div>
@@ -167,7 +175,7 @@ tr:hover td{background:#F5F9FF}
         <i class="ti ti-chevron-down ms-arrow" id="ms-arr-fCampType"></i>
       </div>
       <div class="ms-dropdown" id="ms-dd-fCampType">
-        <div class="ms-search-wrap"><input class="ms-search" placeholder="Search..." oninput="msSearch(this,'fCampType')" onclick="event.stopPropagation()"></div>
+        <div class="ms-search-wrap"><input class="ms-search" onclick="event.stopPropagation()" oninput="msSearch(this,'fCampType')" placeholder="Search..."/></div>
         <div class="ms-actions"><span onclick="msAll('fCampType')">Select all</span><span onclick="msClear('fCampType')">Clear</span></div>
         <div class="ms-list" id="ms-list-fCampType"><div class="ms-item" data-val="DEMAND_GEN" onclick="msToggle('fCampType',this)">Demand Gen</div><div class="ms-item" data-val="PERFORMANCE_MAX" onclick="msToggle('fCampType',this)">Performance Max</div><div class="ms-item" data-val="SEARCH" onclick="msToggle('fCampType',this)">Search</div><div class="ms-item" data-val="SHOPPING" onclick="msToggle('fCampType',this)">Shopping</div></div>
       </div>
@@ -179,9 +187,9 @@ tr:hover td{background:#F5F9FF}
         <i class="ti ti-chevron-down ms-arrow" id="ms-arr-fProduct"></i>
       </div>
       <div class="ms-dropdown" id="ms-dd-fProduct">
-        <div class="ms-search-wrap"><input class="ms-search" placeholder="Search..." oninput="msSearch(this,'fProduct')" onclick="event.stopPropagation()"></div>
+        <div class="ms-search-wrap"><input class="ms-search" onclick="event.stopPropagation()" oninput="msSearch(this,'fProduct')" placeholder="Search..."/></div>
         <div class="ms-actions"><span onclick="msAll('fProduct')">Select all</span><span onclick="msClear('fProduct')">Clear</span></div>
-        <div class="ms-list" id="ms-list-fProduct"><div class="ms-item" data-val="0.5% Ceramide Lotion" onclick="msToggle('fProduct',this)">0.5% Ceramide Lotion</div><div class="ms-item" data-val="1% Ketoconazole dandruff Shampoo" onclick="msToggle('fProduct',this)">1% Ketoconazole dandruff Shampoo</div><div class="ms-item" data-val="1% Peptide & Ceramide Moisturizer" onclick="msToggle('fProduct',this)">1% Peptide & Ceramide Moisturizer</div><div class="ms-item" data-val="1% Peptide Ceramide Moisturizer" onclick="msToggle('fProduct',this)">1% Peptide Ceramide Moisturizer</div><div class="ms-item" data-val="1% Salicylic Body Body" onclick="msToggle('fProduct',this)">1% Salicylic Body Body</div><div class="ms-item" data-val="10% AHA BHA Body Scrub" onclick="msToggle('fProduct',this)">10% AHA BHA Body Scrub</div><div class="ms-item" data-val="10% Magnesium Lotion" onclick="msToggle('fProduct',this)">10% Magnesium Lotion</div><div class="ms-item" data-val="10% Urea Lotion" onclick="msToggle('fProduct',this)">10% Urea Lotion</div><div class="ms-item" data-val="10% Urea Lotion 300ml" onclick="msToggle('fProduct',this)">10% Urea Lotion 300ml</div><div class="ms-item" data-val="2% Salicylic Acid Face Wash" onclick="msToggle('fProduct',this)">2% Salicylic Acid Face Wash</div><div class="ms-item" data-val="2.5% Benzoyl Peroxide Body Wash" onclick="msToggle('fProduct',this)">2.5% Benzoyl Peroxide Body Wash</div><div class="ms-item" data-val="20% Urea Foot Roll On - 50ml" onclick="msToggle('fProduct',this)">20% Urea Foot Roll On - 50ml</div><div class="ms-item" data-val="20% Urea Lotion" onclick="msToggle('fProduct',this)">20% Urea Lotion</div><div class="ms-item" data-val="20% Urea Roll On - 75ml" onclick="msToggle('fProduct',this)">20% Urea Roll On - 75ml</div><div class="ms-item" data-val="30% Urea Roll On - 75ml" onclick="msToggle('fProduct',this)">30% Urea Roll On - 75ml</div><div class="ms-item" data-val="4% AHA BHA Body Butter" onclick="msToggle('fProduct',this)">4% AHA BHA Body Butter</div><div class="ms-item" data-val="4% AHA BHA Underarm Roll On (Flora & Watermelon)" onclick="msToggle('fProduct',this)">4% AHA BHA Underarm Roll On (Flora & Watermelon)</div><div class="ms-item" data-val="4% Underarm Roll On" onclick="msToggle('fProduct',this)">4% Underarm Roll On</div><div class="ms-item" data-val="5% Aha Bodywash 700 ml" onclick="msToggle('fProduct',this)">5% Aha Bodywash 700 ml</div><div class="ms-item" data-val="5% Aha Bodywash Bha" onclick="msToggle('fProduct',this)">5% Aha Bodywash Bha</div><div class="ms-item" data-val="5% Lactic Acid Body Lotion" onclick="msToggle('fProduct',this)">5% Lactic Acid Body Lotion</div><div class="ms-item" data-val="5% Niacinamide Body Wash" onclick="msToggle('fProduct',this)">5% Niacinamide Body Wash</div><div class="ms-item" data-val="6% Underarm Roll On" onclick="msToggle('fProduct',this)">6% Underarm Roll On</div><div class="ms-item" data-val="AHA-BHA Body Pack" onclick="msToggle('fProduct',this)">AHA-BHA Body Pack</div><div class="ms-item" data-val="Acne Control Wash" onclick="msToggle('fProduct',this)">Acne Control Wash</div><div class="ms-item" data-val="Advanced Hair Growth Pack with Roll On 25ml" onclick="msToggle('fProduct',this)">Advanced Hair Growth Pack with Roll On 25ml</div><div class="ms-item" data-val="Advanced Hair Growth Roll On" onclick="msToggle('fProduct',this)">Advanced Hair Growth Roll On</div><div class="ms-item" data-val="Advanced Hair Growth Serum (50ml)" onclick="msToggle('fProduct',this)">Advanced Hair Growth Serum (50ml)</div><div class="ms-item" data-val="Advanced Underarm Pigmentation Kit" onclick="msToggle('fProduct',this)">Advanced Underarm Pigmentation Kit</div><div class="ms-item" data-val="Advanced Underarm Pigmentation Kit (No Fragrance)" onclick="msToggle('fProduct',this)">Advanced Underarm Pigmentation Kit (No Fragrance)</div><div class="ms-item" data-val="Advanced with Acid Body 25ml" onclick="msToggle('fProduct',this)">Advanced with Acid Body 25ml</div><div class="ms-item" data-val="Advanced with Heel Repair 25ml" onclick="msToggle('fProduct',this)">Advanced with Heel Repair 25ml</div><div class="ms-item" data-val="All Products" onclick="msToggle('fProduct',this)">All Products</div><div class="ms-item" data-val="Anti Dandruff Serum" onclick="msToggle('fProduct',this)">Anti Dandruff Serum</div><div class="ms-item" data-val="Anti Dandruff and Hairfall (60)" onclick="msToggle('fProduct',this)">Anti Dandruff and Hairfall (60)</div><div class="ms-item" data-val="Anti Stretch Mark Roll On" onclick="msToggle('fProduct',this)">Anti Stretch Mark Roll On</div><div class="ms-item" data-val="BYOK" onclick="msToggle('fProduct',this)">BYOK</div><div class="ms-item" data-val="Benzoyl Peroxide Face Wash" onclick="msToggle('fProduct',this)">Benzoyl Peroxide Face Wash</div><div class="ms-item" data-val="Biotin Gummies Gummies (120)" onclick="msToggle('fProduct',this)">Biotin Gummies Gummies (120)</div><div class="ms-item" data-val="Biotin Hair Gummies (30)" onclick="msToggle('fProduct',this)">Biotin Hair Gummies (30)</div><div class="ms-item" data-val="Biotin Hair Gummies (60)" onclick="msToggle('fProduct',this)">Biotin Hair Gummies (60)</div><div class="ms-item" data-val="Biotin Hair Gummies (90)" onclick="msToggle('fProduct',this)">Biotin Hair Gummies (90)</div><div class="ms-item" data-val="Body Acne Pack" onclick="msToggle('fProduct',this)">Body Acne Pack</div><div class="ms-item" data-val="Body Acne Range" onclick="msToggle('fProduct',this)">Body Acne Range</div><div class="ms-item" data-val="Body Range" onclick="msToggle('fProduct',this)">Body Range</div><div class="ms-item" data-val="Calcium Gummies" onclick="msToggle('fProduct',this)">Calcium Gummies</div><div class="ms-item" data-val="Collagen Skin Gummies" onclick="msToggle('fProduct',this)">Collagen Skin Gummies</div><div class="ms-item" data-val="Dandruff and Hairfall Kit" onclick="msToggle('fProduct',this)">Dandruff and Hairfall Kit</div><div class="ms-item" data-val="De-tan Kit" onclick="msToggle('fProduct',this)">De-tan Kit</div><div class="ms-item" data-val="Detan Sunscreen Lotion" onclick="msToggle('fProduct',this)">Detan Sunscreen Lotion</div><div class="ms-item" data-val="Face Razor for Women" onclick="msToggle('fProduct',this)">Face Razor for Women</div><div class="ms-item" data-val="Glutathione Gummies (60)" onclick="msToggle('fProduct',this)">Glutathione Gummies (60)</div><div class="ms-item" data-val="Glycolic Acid Stick" onclick="msToggle('fProduct',this)">Glycolic Acid Stick</div><div class="ms-item" data-val="Hair Fall Control Mini" onclick="msToggle('fProduct',this)">Hair Fall Control Mini</div><div class="ms-item" data-val="Hair Fall Control Shampoo" onclick="msToggle('fProduct',this)">Hair Fall Control Shampoo</div><div class="ms-item" data-val="Hair Growth Pack" onclick="msToggle('fProduct',this)">Hair Growth Pack</div><div class="ms-item" data-val="Hair Growth Serum 30ml" onclick="msToggle('fProduct',this)">Hair Growth Serum 30ml</div><div class="ms-item" data-val="Hair Growth Serum Roll-On 50ml" onclick="msToggle('fProduct',this)">Hair Growth Serum Roll-On 50ml</div><div class="ms-item" data-val="Hair Gummies for Post-Pregnancy Hair Fall (30N)" onclick="msToggle('fProduct',this)">Hair Gummies for Post-Pregnancy Hair Fall (30N)</div><div class="ms-item" data-val="Hair Pro Pack (30N 50ml)" onclick="msToggle('fProduct',this)">Hair Pro Pack (30N 50ml)</div><div class="ms-item" data-val="Hair Strengthening Serum" onclick="msToggle('fProduct',this)">Hair Strengthening Serum</div><div class="ms-item" data-val="Hyaluronic Acid Body Wash" onclick="msToggle('fProduct',this)">Hyaluronic Acid Body Wash</div><div class="ms-item" data-val="Hyaluronic Acid Mousse" onclick="msToggle('fProduct',this)">Hyaluronic Acid Mousse</div><div class="ms-item" data-val="Ice Roller (1 N)" onclick="msToggle('fProduct',this)">Ice Roller (1 N)</div><div class="ms-item" data-val="Intense Dandruff Kit" onclick="msToggle('fProduct',this)">Intense Dandruff Kit</div><div class="ms-item" data-val="Keratin Conditioner" onclick="msToggle('fProduct',this)">Keratin Conditioner</div><div class="ms-item" data-val="Ketoconazole dandruff Shampoo 150ml" onclick="msToggle('fProduct',this)">Ketoconazole dandruff Shampoo 150ml</div><div class="ms-item" data-val="Magnesium Gummies Gummies (60)" onclick="msToggle('fProduct',this)">Magnesium Gummies Gummies (60)</div><div class="ms-item" data-val="Magnesium Gummies and Lotion (60)" onclick="msToggle('fProduct',this)">Magnesium Gummies and Lotion (60)</div><div class="ms-item" data-val="Multivitamin Gummies" onclick="msToggle('fProduct',this)">Multivitamin Gummies</div><div class="ms-item" data-val="Niacinamide Body Lotion" onclick="msToggle('fProduct',this)">Niacinamide Body Lotion</div><div class="ms-item" data-val="Other" onclick="msToggle('fProduct',this)">Other</div><div class="ms-item" data-val="Pigmentation Repair Cream" onclick="msToggle('fProduct',this)">Pigmentation Repair Cream</div><div class="ms-item" data-val="Postpartum Hairfall 1Month (60)" onclick="msToggle('fProduct',this)">Postpartum Hairfall 1Month (60)</div><div class="ms-item" data-val="Salicylic Acid Cleansing Balm" onclick="msToggle('fProduct',this)">Salicylic Acid Cleansing Balm</div><div class="ms-item" data-val="Salicylic Body Wash (60)" onclick="msToggle('fProduct',this)">Salicylic Body Wash (60)</div><div class="ms-item" data-val="Salicylic Ceramide BW" onclick="msToggle('fProduct',this)">Salicylic Ceramide BW</div><div class="ms-item" data-val="Scalp Massager" onclick="msToggle('fProduct',this)">Scalp Massager</div><div class="ms-item" data-val="Shilajit Gummies (60)" onclick="msToggle('fProduct',this)">Shilajit Gummies (60)</div><div class="ms-item" data-val="Strawberry Skin Exfoliation kit" onclick="msToggle('fProduct',this)">Strawberry Skin Exfoliation kit</div><div class="ms-item" data-val="Strawberry Skin Pack" onclick="msToggle('fProduct',this)">Strawberry Skin Pack</div><div class="ms-item" data-val="Strawberry Skin kit" onclick="msToggle('fProduct',this)">Strawberry Skin kit</div><div class="ms-item" data-val="Summer Essentials Kit" onclick="msToggle('fProduct',this)">Summer Essentials Kit</div><div class="ms-item" data-val="Suncare Duo for face & body" onclick="msToggle('fProduct',this)">Suncare Duo for face & body</div><div class="ms-item" data-val="Sunscreen spray" onclick="msToggle('fProduct',this)">Sunscreen spray</div><div class="ms-item" data-val="Super Blend" onclick="msToggle('fProduct',this)">Super Blend</div><div class="ms-item" data-val="Triple Milk BW" onclick="msToggle('fProduct',this)">Triple Milk BW</div><div class="ms-item" data-val="Ultra Light Sunscreen SPF50+" onclick="msToggle('fProduct',this)">Ultra Light Sunscreen SPF50+</div><div class="ms-item" data-val="UnderArm Pigmentation Kit" onclick="msToggle('fProduct',this)">UnderArm Pigmentation Kit</div><div class="ms-item" data-val="Underarms Range" onclick="msToggle('fProduct',this)">Underarms Range</div><div class="ms-item" data-val="Urea Skin heel Repair (60)" onclick="msToggle('fProduct',this)">Urea Skin heel Repair (60)</div><div class="ms-item" data-val="Winter Care" onclick="msToggle('fProduct',this)">Winter Care</div></div>
+        <div class="ms-list" id="ms-list-fProduct"><div class="ms-item" data-val="0.5% Ceramide Lotion" onclick="msToggle('fProduct',this)">0.5% Ceramide Lotion</div><div class="ms-item" data-val="1% Ketoconazole dandruff Shampoo" onclick="msToggle('fProduct',this)">1% Ketoconazole dandruff Shampoo</div><div class="ms-item" data-val="1% Peptide &amp; Ceramide Moisturizer" onclick="msToggle('fProduct',this)">1% Peptide &amp; Ceramide Moisturizer</div><div class="ms-item" data-val="1% Peptide Ceramide Moisturizer" onclick="msToggle('fProduct',this)">1% Peptide Ceramide Moisturizer</div><div class="ms-item" data-val="1% Salicylic Body Body" onclick="msToggle('fProduct',this)">1% Salicylic Body Body</div><div class="ms-item" data-val="10% AHA BHA Body Scrub" onclick="msToggle('fProduct',this)">10% AHA BHA Body Scrub</div><div class="ms-item" data-val="10% Magnesium Lotion" onclick="msToggle('fProduct',this)">10% Magnesium Lotion</div><div class="ms-item" data-val="10% Urea Lotion" onclick="msToggle('fProduct',this)">10% Urea Lotion</div><div class="ms-item" data-val="10% Urea Lotion 300ml" onclick="msToggle('fProduct',this)">10% Urea Lotion 300ml</div><div class="ms-item" data-val="2% Salicylic Acid Face Wash" onclick="msToggle('fProduct',this)">2% Salicylic Acid Face Wash</div><div class="ms-item" data-val="2.5% Benzoyl Peroxide Body Wash" onclick="msToggle('fProduct',this)">2.5% Benzoyl Peroxide Body Wash</div><div class="ms-item" data-val="20% Urea Foot Roll On - 50ml" onclick="msToggle('fProduct',this)">20% Urea Foot Roll On - 50ml</div><div class="ms-item" data-val="20% Urea Lotion" onclick="msToggle('fProduct',this)">20% Urea Lotion</div><div class="ms-item" data-val="20% Urea Roll On - 75ml" onclick="msToggle('fProduct',this)">20% Urea Roll On - 75ml</div><div class="ms-item" data-val="30% Urea Roll On - 75ml" onclick="msToggle('fProduct',this)">30% Urea Roll On - 75ml</div><div class="ms-item" data-val="4% AHA BHA Body Butter" onclick="msToggle('fProduct',this)">4% AHA BHA Body Butter</div><div class="ms-item" data-val="4% AHA BHA Underarm Roll On (Flora &amp; Watermelon)" onclick="msToggle('fProduct',this)">4% AHA BHA Underarm Roll On (Flora &amp; Watermelon)</div><div class="ms-item" data-val="4% Underarm Roll On" onclick="msToggle('fProduct',this)">4% Underarm Roll On</div><div class="ms-item" data-val="5% Aha Bodywash 700 ml" onclick="msToggle('fProduct',this)">5% Aha Bodywash 700 ml</div><div class="ms-item" data-val="5% Aha Bodywash Bha" onclick="msToggle('fProduct',this)">5% Aha Bodywash Bha</div><div class="ms-item" data-val="5% Lactic Acid Body Lotion" onclick="msToggle('fProduct',this)">5% Lactic Acid Body Lotion</div><div class="ms-item" data-val="5% Niacinamide Body Wash" onclick="msToggle('fProduct',this)">5% Niacinamide Body Wash</div><div class="ms-item" data-val="6% Underarm Roll On" onclick="msToggle('fProduct',this)">6% Underarm Roll On</div><div class="ms-item" data-val="AHA-BHA Body Pack" onclick="msToggle('fProduct',this)">AHA-BHA Body Pack</div><div class="ms-item" data-val="Acne Control Wash" onclick="msToggle('fProduct',this)">Acne Control Wash</div><div class="ms-item" data-val="Advanced Hair Growth Pack with Roll On 25ml" onclick="msToggle('fProduct',this)">Advanced Hair Growth Pack with Roll On 25ml</div><div class="ms-item" data-val="Advanced Hair Growth Roll On" onclick="msToggle('fProduct',this)">Advanced Hair Growth Roll On</div><div class="ms-item" data-val="Advanced Hair Growth Serum (50ml)" onclick="msToggle('fProduct',this)">Advanced Hair Growth Serum (50ml)</div><div class="ms-item" data-val="Advanced Underarm Pigmentation Kit" onclick="msToggle('fProduct',this)">Advanced Underarm Pigmentation Kit</div><div class="ms-item" data-val="Advanced Underarm Pigmentation Kit (No Fragrance)" onclick="msToggle('fProduct',this)">Advanced Underarm Pigmentation Kit (No Fragrance)</div><div class="ms-item" data-val="Advanced with Acid Body 25ml" onclick="msToggle('fProduct',this)">Advanced with Acid Body 25ml</div><div class="ms-item" data-val="Advanced with Heel Repair 25ml" onclick="msToggle('fProduct',this)">Advanced with Heel Repair 25ml</div><div class="ms-item" data-val="All Products" onclick="msToggle('fProduct',this)">All Products</div><div class="ms-item" data-val="Anti Dandruff Serum" onclick="msToggle('fProduct',this)">Anti Dandruff Serum</div><div class="ms-item" data-val="Anti Dandruff and Hairfall (60)" onclick="msToggle('fProduct',this)">Anti Dandruff and Hairfall (60)</div><div class="ms-item" data-val="Anti Stretch Mark Roll On" onclick="msToggle('fProduct',this)">Anti Stretch Mark Roll On</div><div class="ms-item" data-val="BYOK" onclick="msToggle('fProduct',this)">BYOK</div><div class="ms-item" data-val="Benzoyl Peroxide Face Wash" onclick="msToggle('fProduct',this)">Benzoyl Peroxide Face Wash</div><div class="ms-item" data-val="Biotin Gummies Gummies (120)" onclick="msToggle('fProduct',this)">Biotin Gummies Gummies (120)</div><div class="ms-item" data-val="Biotin Hair Gummies (30)" onclick="msToggle('fProduct',this)">Biotin Hair Gummies (30)</div><div class="ms-item" data-val="Biotin Hair Gummies (60)" onclick="msToggle('fProduct',this)">Biotin Hair Gummies (60)</div><div class="ms-item" data-val="Biotin Hair Gummies (90)" onclick="msToggle('fProduct',this)">Biotin Hair Gummies (90)</div><div class="ms-item" data-val="Body Acne Pack" onclick="msToggle('fProduct',this)">Body Acne Pack</div><div class="ms-item" data-val="Body Acne Range" onclick="msToggle('fProduct',this)">Body Acne Range</div><div class="ms-item" data-val="Body Range" onclick="msToggle('fProduct',this)">Body Range</div><div class="ms-item" data-val="Calcium Gummies" onclick="msToggle('fProduct',this)">Calcium Gummies</div><div class="ms-item" data-val="Collagen Skin Gummies" onclick="msToggle('fProduct',this)">Collagen Skin Gummies</div><div class="ms-item" data-val="Dandruff and Hairfall Kit" onclick="msToggle('fProduct',this)">Dandruff and Hairfall Kit</div><div class="ms-item" data-val="De-tan Kit" onclick="msToggle('fProduct',this)">De-tan Kit</div><div class="ms-item" data-val="Detan Sunscreen Lotion" onclick="msToggle('fProduct',this)">Detan Sunscreen Lotion</div><div class="ms-item" data-val="Face Razor for Women" onclick="msToggle('fProduct',this)">Face Razor for Women</div><div class="ms-item" data-val="Glutathione Gummies (60)" onclick="msToggle('fProduct',this)">Glutathione Gummies (60)</div><div class="ms-item" data-val="Glycolic Acid Stick" onclick="msToggle('fProduct',this)">Glycolic Acid Stick</div><div class="ms-item" data-val="Hair Fall Control Mini" onclick="msToggle('fProduct',this)">Hair Fall Control Mini</div><div class="ms-item" data-val="Hair Fall Control Shampoo" onclick="msToggle('fProduct',this)">Hair Fall Control Shampoo</div><div class="ms-item" data-val="Hair Growth Pack" onclick="msToggle('fProduct',this)">Hair Growth Pack</div><div class="ms-item" data-val="Hair Growth Serum 30ml" onclick="msToggle('fProduct',this)">Hair Growth Serum 30ml</div><div class="ms-item" data-val="Hair Growth Serum Roll-On 50ml" onclick="msToggle('fProduct',this)">Hair Growth Serum Roll-On 50ml</div><div class="ms-item" data-val="Hair Gummies for Post-Pregnancy Hair Fall (30N)" onclick="msToggle('fProduct',this)">Hair Gummies for Post-Pregnancy Hair Fall (30N)</div><div class="ms-item" data-val="Hair Pro Pack (30N 50ml)" onclick="msToggle('fProduct',this)">Hair Pro Pack (30N 50ml)</div><div class="ms-item" data-val="Hair Strengthening Serum" onclick="msToggle('fProduct',this)">Hair Strengthening Serum</div><div class="ms-item" data-val="Hyaluronic Acid Body Wash" onclick="msToggle('fProduct',this)">Hyaluronic Acid Body Wash</div><div class="ms-item" data-val="Hyaluronic Acid Mousse" onclick="msToggle('fProduct',this)">Hyaluronic Acid Mousse</div><div class="ms-item" data-val="Ice Roller (1 N)" onclick="msToggle('fProduct',this)">Ice Roller (1 N)</div><div class="ms-item" data-val="Intense Dandruff Kit" onclick="msToggle('fProduct',this)">Intense Dandruff Kit</div><div class="ms-item" data-val="Keratin Conditioner" onclick="msToggle('fProduct',this)">Keratin Conditioner</div><div class="ms-item" data-val="Ketoconazole dandruff Shampoo 150ml" onclick="msToggle('fProduct',this)">Ketoconazole dandruff Shampoo 150ml</div><div class="ms-item" data-val="Magnesium Gummies Gummies (60)" onclick="msToggle('fProduct',this)">Magnesium Gummies Gummies (60)</div><div class="ms-item" data-val="Magnesium Gummies and Lotion (60)" onclick="msToggle('fProduct',this)">Magnesium Gummies and Lotion (60)</div><div class="ms-item" data-val="Multivitamin Gummies" onclick="msToggle('fProduct',this)">Multivitamin Gummies</div><div class="ms-item" data-val="Niacinamide Body Lotion" onclick="msToggle('fProduct',this)">Niacinamide Body Lotion</div><div class="ms-item" data-val="Other" onclick="msToggle('fProduct',this)">Other</div><div class="ms-item" data-val="Pigmentation Repair Cream" onclick="msToggle('fProduct',this)">Pigmentation Repair Cream</div><div class="ms-item" data-val="Postpartum Hairfall 1Month (60)" onclick="msToggle('fProduct',this)">Postpartum Hairfall 1Month (60)</div><div class="ms-item" data-val="Salicylic Acid Cleansing Balm" onclick="msToggle('fProduct',this)">Salicylic Acid Cleansing Balm</div><div class="ms-item" data-val="Salicylic Body Wash (60)" onclick="msToggle('fProduct',this)">Salicylic Body Wash (60)</div><div class="ms-item" data-val="Salicylic Ceramide BW" onclick="msToggle('fProduct',this)">Salicylic Ceramide BW</div><div class="ms-item" data-val="Scalp Massager" onclick="msToggle('fProduct',this)">Scalp Massager</div><div class="ms-item" data-val="Shilajit Gummies (60)" onclick="msToggle('fProduct',this)">Shilajit Gummies (60)</div><div class="ms-item" data-val="Strawberry Skin Exfoliation kit" onclick="msToggle('fProduct',this)">Strawberry Skin Exfoliation kit</div><div class="ms-item" data-val="Strawberry Skin Pack" onclick="msToggle('fProduct',this)">Strawberry Skin Pack</div><div class="ms-item" data-val="Strawberry Skin kit" onclick="msToggle('fProduct',this)">Strawberry Skin kit</div><div class="ms-item" data-val="Summer Essentials Kit" onclick="msToggle('fProduct',this)">Summer Essentials Kit</div><div class="ms-item" data-val="Suncare Duo for face &amp; body" onclick="msToggle('fProduct',this)">Suncare Duo for face &amp; body</div><div class="ms-item" data-val="Sunscreen spray" onclick="msToggle('fProduct',this)">Sunscreen spray</div><div class="ms-item" data-val="Super Blend" onclick="msToggle('fProduct',this)">Super Blend</div><div class="ms-item" data-val="Triple Milk BW" onclick="msToggle('fProduct',this)">Triple Milk BW</div><div class="ms-item" data-val="Ultra Light Sunscreen SPF50+" onclick="msToggle('fProduct',this)">Ultra Light Sunscreen SPF50+</div><div class="ms-item" data-val="UnderArm Pigmentation Kit" onclick="msToggle('fProduct',this)">UnderArm Pigmentation Kit</div><div class="ms-item" data-val="Underarms Range" onclick="msToggle('fProduct',this)">Underarms Range</div><div class="ms-item" data-val="Urea Skin heel Repair (60)" onclick="msToggle('fProduct',this)">Urea Skin heel Repair (60)</div><div class="ms-item" data-val="Winter Care" onclick="msToggle('fProduct',this)">Winter Care</div></div>
       </div>
     </div>
     <div class="filter-group ms-wrap" id="ms-wrap-fTag">
@@ -191,7 +199,7 @@ tr:hover td{background:#F5F9FF}
         <i class="ti ti-chevron-down ms-arrow" id="ms-arr-fTag"></i>
       </div>
       <div class="ms-dropdown" id="ms-dd-fTag">
-        <div class="ms-search-wrap"><input class="ms-search" placeholder="Search..." oninput="msSearch(this,'fTag')" onclick="event.stopPropagation()"></div>
+        <div class="ms-search-wrap"><input class="ms-search" onclick="event.stopPropagation()" oninput="msSearch(this,'fTag')" placeholder="Search..."/></div>
         <div class="ms-actions"><span onclick="msAll('fTag')">Select all</span><span onclick="msClear('fTag')">Clear</span></div>
         <div class="ms-list" id="ms-list-fTag"><div class="ms-item" data-val="5%BW" onclick="msToggle('fTag',this)">5%BW</div><div class="ms-item" data-val="ASMRO" onclick="msToggle('fTag',this)">ASMRO</div><div class="ms-item" data-val="HG" onclick="msToggle('fTag',this)">HG</div><div class="ms-item" data-val="HGP" onclick="msToggle('fTag',this)">HGP</div><div class="ms-item" data-val="HGP - adv" onclick="msToggle('fTag',this)">HGP - adv</div><div class="ms-item" data-val="HGRO" onclick="msToggle('fTag',this)">HGRO</div><div class="ms-item" data-val="MG" onclick="msToggle('fTag',this)">MG</div><div class="ms-item" data-val="Others" onclick="msToggle('fTag',this)">Others</div><div class="ms-item" data-val="PPHG" onclick="msToggle('fTag',this)">PPHG</div><div class="ms-item" data-val="SABW" onclick="msToggle('fTag',this)">SABW</div><div class="ms-item" data-val="SPF" onclick="msToggle('fTag',this)">SPF</div><div class="ms-item" data-val="SSK" onclick="msToggle('fTag',this)">SSK</div><div class="ms-item" data-val="UARO" onclick="msToggle('fTag',this)">UARO</div><div class="ms-item" data-val="UFR" onclick="msToggle('fTag',this)">UFR</div><div class="ms-item" data-val="UL" onclick="msToggle('fTag',this)">UL</div><div class="ms-item" data-val="UPK" onclick="msToggle('fTag',this)">UPK</div></div>
       </div>
@@ -202,11 +210,11 @@ tr:hover td{background:#F5F9FF}
     <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
       <div style="display:flex;align-items:center;gap:6px;">
         <label style="font-size:12px;color:#5B8DD9">From</label>
-        <input type="date" id="dateFrom" min="2026-03-01" max="2026-07-05" value="2026-03-01" style="padding:6px 10px;border:1px solid #BFDBFE;border-radius:6px;font-size:13px;color:#0D1F3C;background:#F0F7FF;cursor:pointer">
+        <input id="dateFrom" max="2026-07-05" min="2026-03-01" style="padding:6px 10px;border:1px solid #BFDBFE;border-radius:6px;font-size:13px;color:#0D1F3C;background:#F0F7FF;cursor:pointer" type="date" value="2026-03-01"/>
       </div>
       <div style="display:flex;align-items:center;gap:6px;">
         <label style="font-size:12px;color:#5B8DD9">To</label>
-        <input type="date" id="dateTo" min="2026-03-01" max="2026-07-05" value="2026-07-05" style="padding:6px 10px;border:1px solid #BFDBFE;border-radius:6px;font-size:13px;color:#0D1F3C;background:#F0F7FF;cursor:pointer">
+        <input id="dateTo" max="2026-07-05" min="2026-03-01" style="padding:6px 10px;border:1px solid #BFDBFE;border-radius:6px;font-size:13px;color:#0D1F3C;background:#F0F7FF;cursor:pointer" type="date" value="2026-07-05"/>
       </div>
       <button onclick="resetDateRange()" style="font-size:12px;padding:6px 12px;border:1px solid #BFDBFE;border-radius:6px;background:#F0F7FF;cursor:pointer;color:#1A56DB;display:flex;align-items:center;gap:4px;font-weight:600"><i class="ti ti-refresh" style="font-size:13px"></i> Reset</button>
     </div>
@@ -231,7 +239,7 @@ tr:hover td{background:#F5F9FF}
         <div class="leg-item"><div class="leg-dot" style="background:#378ADD"></div>Cost</div>
         <div class="leg-item"><div class="leg-dot" style="background:#D85A30"></div>Conversions</div>
       </div>
-      <div style="position:relative;height:200px"><canvas id="trendChart" role="img" aria-label="Cost and conversions trend over days">Cost and conversions over time.</canvas></div>
+      <div style="position:relative;height:200px"><canvas aria-label="Cost and conversions trend over days" id="trendChart" role="img">Cost and conversions over time.</canvas></div>
     </div>
     <div class="card" onclick="expandChart('ctrcpm')">
       <div class="card-title"><i class="ti ti-percentage" style="color:#7F77DD"></i> CTR &amp; CPM <span class="expand-hint"><i class="ti ti-arrows-maximize" style="font-size:11px"></i> Expand</span></div>
@@ -239,16 +247,16 @@ tr:hover td{background:#F5F9FF}
         <div class="leg-item"><div class="leg-dot" style="background:#EF9F27;height:10px;width:10px;border-radius:2px"></div>CPM ₹ (bar)</div>
         <div class="leg-item"><div class="leg-dot" style="background:#7F77DD"></div>CTR % (line)</div>
       </div>
-      <div style="position:relative;height:210px"><canvas id="clickChart" role="img" aria-label="CPM bars and CTR line by day">CPM and CTR per day mixed chart.</canvas></div>
+      <div style="position:relative;height:210px"><canvas aria-label="CPM bars and CTR line by day" id="clickChart" role="img">CPM and CTR per day mixed chart.</canvas></div>
     </div>
     <div class="card" onclick="expandChart('roas')">
       <div class="card-title"><i class="ti ti-arrows-exchange" style="color:#1D9E75"></i> ROAS by day <span class="expand-hint"><i class="ti ti-arrows-maximize" style="font-size:11px"></i> Expand</span></div>
       <div class="legend">
         <div class="leg-item"><div class="leg-dot" style="background:#1D9E75"></div>ROAS (line)</div>
-        <div class="leg-item"><div style="width:10px;height:10px;border-radius:2px;background:#e1f5ee;border:1px solid #1D9E75;display:inline-block"></div>&nbsp;&ge;1x</div>
-        <div class="leg-item"><div style="width:10px;height:10px;border-radius:2px;background:#faece7;border:1px solid #D85A30;display:inline-block"></div>&nbsp;&lt;1x</div>
+        <div class="leg-item"><div style="width:10px;height:10px;border-radius:2px;background:#e1f5ee;border:1px solid #1D9E75;display:inline-block"></div> ≥1x</div>
+        <div class="leg-item"><div style="width:10px;height:10px;border-radius:2px;background:#faece7;border:1px solid #D85A30;display:inline-block"></div> &lt;1x</div>
       </div>
-      <div style="position:relative;height:190px"><canvas id="convChart" role="img" aria-label="ROAS trend line by day">ROAS line chart per day.</canvas></div>
+      <div style="position:relative;height:190px"><canvas aria-label="ROAS trend line by day" id="convChart" role="img">ROAS line chart per day.</canvas></div>
     </div>
     <div class="card" onclick="expandChart('tag')">
       <div class="card-title"><i class="ti ti-tag" style="color:#7F77DD"></i> Cost &amp; ROAS by Tag <span class="expand-hint"><i class="ti ti-arrows-maximize" style="font-size:11px"></i> Expand</span></div>
@@ -256,7 +264,7 @@ tr:hover td{background:#F5F9FF}
         <div class="leg-item"><div class="leg-dot" style="background:#7F77DD;height:10px;width:10px;border-radius:2px"></div>Cost (bar)</div>
         <div class="leg-item"><div class="leg-dot" style="background:#EF9F27"></div>ROAS (line)</div>
       </div>
-      <div style="position:relative;height:190px"><canvas id="tagChart" role="img" aria-label="Cost and ROAS by product tag">Cost and ROAS per product tag.</canvas></div>
+      <div style="position:relative;height:190px"><canvas aria-label="Cost and ROAS by product tag" id="tagChart" role="img">Cost and ROAS per product tag.</canvas></div>
     </div>
   </div>
 
@@ -296,34 +304,109 @@ tr:hover td{background:#F5F9FF}
           <tr id="campSortHead">
             <th>Campaign</th>
             <th data-sort="ct" style="cursor:pointer;user-select:none">Type <i class="ti ti-selector" style="font-size:10px;opacity:.5"></i></th>
-            <th data-sort="co" style="cursor:pointer;user-select:none">Cost ₹ <i class="ti ti-selector" style="font-size:10px;opacity:.5" id="sort-co"></i></th>
+            <th data-sort="co" style="cursor:pointer;user-select:none">Cost ₹ <i class="ti ti-selector" id="sort-co" style="font-size:10px;opacity:.5"></i></th>
             <th>Cost %</th>
             <th>Impressions</th>
             <th>Clicks</th>
             <th>CTR</th>
             <th>CPC ₹</th>
             <th>Conversions</th>
-            <th data-sort="cac" style="cursor:pointer;user-select:none">CAC ₹ <i class="ti ti-selector" style="font-size:10px;opacity:.5" id="sort-cac"></i></th>
+            <th data-sort="cac" style="cursor:pointer;user-select:none">CAC ₹ <i class="ti ti-selector" id="sort-cac" style="font-size:10px;opacity:.5"></i></th>
             <th>Conv Value ₹</th>
-            <th data-sort="roas" style="cursor:pointer;user-select:none">ROAS <i class="ti ti-selector" style="font-size:10px;opacity:.5" id="sort-roas"></i></th>
+            <th data-sort="roas" style="cursor:pointer;user-select:none">ROAS <i class="ti ti-selector" id="sort-roas" style="font-size:10px;opacity:.5"></i></th>
           </tr>
         </thead>
         <tbody id="campPivotBody"></tbody>
       </table>
     </div>
   </div>
-</div>
+</div><div style="margin-top:28px;margin-bottom:8px">
+  <div style="background:#1A56DB;border-radius:12px 12px 0 0;padding:13px 18px;display:flex;align-items:center;justify-content:space-between">
+    <div style="display:flex;align-items:center;gap:9px;color:#fff;font-size:14px;font-weight:700">
+      <i class="ti ti-sparkles"></i> Performance Insights
+    </div>
+    <div id="insightsMeta" style="font-size:11px;color:#93c5fd">Select a product for full analysis · updates with date range</div>
   </div>
-</div>
+  <div id="unifiedInsights" style="background:#fff;border:1px solid #BFDBFE;border-top:none;border-radius:0 0 12px 12px;min-height:120px">
+    <div style="padding:24px;text-align:center;color:#93c5fd;font-size:13px">
+      <i class="ti ti-filter" style="font-size:20px;display:block;margin-bottom:8px"></i>
+      Select a <b>Product</b> from the filters above to see full performance analysis for the selected date range.
+    </div>
+  </div>
+</div></div><div class="tab-panel" id="tabPanel-creatives">
+  <div class="filters">
+    <div class="filter-group ms-wrap" id="ms-wrap-fMonth-c">
+      <label>Month</label>
+      <div class="ms-box" id="ms-box-fMonth-c" onclick="msOpen(event,'fMonth','-c')">
+        <span class="ms-display placeholder" id="ms-disp-fMonth-c">All months</span>
+        <i class="ti ti-chevron-down ms-arrow" id="ms-arr-fMonth-c"></i>
+      </div>
+      <div class="ms-dropdown" id="ms-dd-fMonth-c">
+        <div class="ms-search-wrap"><input class="ms-search" onclick="event.stopPropagation()" oninput="msSearch(this,'fMonth')" placeholder="Search..."/></div>
+        <div class="ms-actions"><span onclick="msAll('fMonth','-c')">Select all</span><span onclick="msClear('fMonth','-c')">Clear</span></div>
+        <div class="ms-list" id="ms-list-fMonth-c"><div class="ms-item" data-val="3" onclick="msToggle('fMonth',this)">March</div><div class="ms-item" data-val="4" onclick="msToggle('fMonth',this)">April</div><div class="ms-item" data-val="5" onclick="msToggle('fMonth',this)">May</div><div class="ms-item" data-val="6" onclick="msToggle('fMonth',this)">June</div></div>
+      </div>
+    </div>
+    <div class="filter-group ms-wrap" id="ms-wrap-fCampType-c">
+      <label>Campaign Type</label>
+      <div class="ms-box" id="ms-box-fCampType-c" onclick="msOpen(event,'fCampType','-c')">
+        <span class="ms-display placeholder" id="ms-disp-fCampType-c">All types</span>
+        <i class="ti ti-chevron-down ms-arrow" id="ms-arr-fCampType-c"></i>
+      </div>
+      <div class="ms-dropdown" id="ms-dd-fCampType-c">
+        <div class="ms-search-wrap"><input class="ms-search" onclick="event.stopPropagation()" oninput="msSearch(this,'fCampType')" placeholder="Search..."/></div>
+        <div class="ms-actions"><span onclick="msAll('fCampType','-c')">Select all</span><span onclick="msClear('fCampType','-c')">Clear</span></div>
+        <div class="ms-list" id="ms-list-fCampType-c"><div class="ms-item" data-val="DEMAND_GEN" onclick="msToggle('fCampType',this)">Demand Gen</div><div class="ms-item" data-val="PERFORMANCE_MAX" onclick="msToggle('fCampType',this)">Performance Max</div><div class="ms-item" data-val="SEARCH" onclick="msToggle('fCampType',this)">Search</div><div class="ms-item" data-val="SHOPPING" onclick="msToggle('fCampType',this)">Shopping</div></div>
+      </div>
+    </div>
+    <div class="filter-group ms-wrap" id="ms-wrap-fProduct-c">
+      <label>Product</label>
+      <div class="ms-box" id="ms-box-fProduct-c" onclick="msOpen(event,'fProduct','-c')">
+        <span class="ms-display placeholder" id="ms-disp-fProduct-c">All products</span>
+        <i class="ti ti-chevron-down ms-arrow" id="ms-arr-fProduct-c"></i>
+      </div>
+      <div class="ms-dropdown" id="ms-dd-fProduct-c">
+        <div class="ms-search-wrap"><input class="ms-search" onclick="event.stopPropagation()" oninput="msSearch(this,'fProduct')" placeholder="Search..."/></div>
+        <div class="ms-actions"><span onclick="msAll('fProduct','-c')">Select all</span><span onclick="msClear('fProduct','-c')">Clear</span></div>
+        <div class="ms-list" id="ms-list-fProduct-c"><div class="ms-item" data-val="0.5% Ceramide Lotion" onclick="msToggle('fProduct',this)">0.5% Ceramide Lotion</div><div class="ms-item" data-val="1% Ketoconazole dandruff Shampoo" onclick="msToggle('fProduct',this)">1% Ketoconazole dandruff Shampoo</div><div class="ms-item" data-val="1% Peptide &amp; Ceramide Moisturizer" onclick="msToggle('fProduct',this)">1% Peptide &amp; Ceramide Moisturizer</div><div class="ms-item" data-val="1% Peptide Ceramide Moisturizer" onclick="msToggle('fProduct',this)">1% Peptide Ceramide Moisturizer</div><div class="ms-item" data-val="1% Salicylic Body Body" onclick="msToggle('fProduct',this)">1% Salicylic Body Body</div><div class="ms-item" data-val="10% AHA BHA Body Scrub" onclick="msToggle('fProduct',this)">10% AHA BHA Body Scrub</div><div class="ms-item" data-val="10% Magnesium Lotion" onclick="msToggle('fProduct',this)">10% Magnesium Lotion</div><div class="ms-item" data-val="10% Urea Lotion" onclick="msToggle('fProduct',this)">10% Urea Lotion</div><div class="ms-item" data-val="10% Urea Lotion 300ml" onclick="msToggle('fProduct',this)">10% Urea Lotion 300ml</div><div class="ms-item" data-val="2% Salicylic Acid Face Wash" onclick="msToggle('fProduct',this)">2% Salicylic Acid Face Wash</div><div class="ms-item" data-val="2.5% Benzoyl Peroxide Body Wash" onclick="msToggle('fProduct',this)">2.5% Benzoyl Peroxide Body Wash</div><div class="ms-item" data-val="20% Urea Foot Roll On - 50ml" onclick="msToggle('fProduct',this)">20% Urea Foot Roll On - 50ml</div><div class="ms-item" data-val="20% Urea Lotion" onclick="msToggle('fProduct',this)">20% Urea Lotion</div><div class="ms-item" data-val="20% Urea Roll On - 75ml" onclick="msToggle('fProduct',this)">20% Urea Roll On - 75ml</div><div class="ms-item" data-val="30% Urea Roll On - 75ml" onclick="msToggle('fProduct',this)">30% Urea Roll On - 75ml</div><div class="ms-item" data-val="4% AHA BHA Body Butter" onclick="msToggle('fProduct',this)">4% AHA BHA Body Butter</div><div class="ms-item" data-val="4% AHA BHA Underarm Roll On (Flora &amp; Watermelon)" onclick="msToggle('fProduct',this)">4% AHA BHA Underarm Roll On (Flora &amp; Watermelon)</div><div class="ms-item" data-val="4% Underarm Roll On" onclick="msToggle('fProduct',this)">4% Underarm Roll On</div><div class="ms-item" data-val="5% Aha Bodywash 700 ml" onclick="msToggle('fProduct',this)">5% Aha Bodywash 700 ml</div><div class="ms-item" data-val="5% Aha Bodywash Bha" onclick="msToggle('fProduct',this)">5% Aha Bodywash Bha</div><div class="ms-item" data-val="5% Lactic Acid Body Lotion" onclick="msToggle('fProduct',this)">5% Lactic Acid Body Lotion</div><div class="ms-item" data-val="5% Niacinamide Body Wash" onclick="msToggle('fProduct',this)">5% Niacinamide Body Wash</div><div class="ms-item" data-val="6% Underarm Roll On" onclick="msToggle('fProduct',this)">6% Underarm Roll On</div><div class="ms-item" data-val="AHA-BHA Body Pack" onclick="msToggle('fProduct',this)">AHA-BHA Body Pack</div><div class="ms-item" data-val="Acne Control Wash" onclick="msToggle('fProduct',this)">Acne Control Wash</div><div class="ms-item" data-val="Advanced Hair Growth Pack with Roll On 25ml" onclick="msToggle('fProduct',this)">Advanced Hair Growth Pack with Roll On 25ml</div><div class="ms-item" data-val="Advanced Hair Growth Roll On" onclick="msToggle('fProduct',this)">Advanced Hair Growth Roll On</div><div class="ms-item" data-val="Advanced Hair Growth Serum (50ml)" onclick="msToggle('fProduct',this)">Advanced Hair Growth Serum (50ml)</div><div class="ms-item" data-val="Advanced Underarm Pigmentation Kit" onclick="msToggle('fProduct',this)">Advanced Underarm Pigmentation Kit</div><div class="ms-item" data-val="Advanced Underarm Pigmentation Kit (No Fragrance)" onclick="msToggle('fProduct',this)">Advanced Underarm Pigmentation Kit (No Fragrance)</div><div class="ms-item" data-val="Advanced with Acid Body 25ml" onclick="msToggle('fProduct',this)">Advanced with Acid Body 25ml</div><div class="ms-item" data-val="Advanced with Heel Repair 25ml" onclick="msToggle('fProduct',this)">Advanced with Heel Repair 25ml</div><div class="ms-item" data-val="All Products" onclick="msToggle('fProduct',this)">All Products</div><div class="ms-item" data-val="Anti Dandruff Serum" onclick="msToggle('fProduct',this)">Anti Dandruff Serum</div><div class="ms-item" data-val="Anti Dandruff and Hairfall (60)" onclick="msToggle('fProduct',this)">Anti Dandruff and Hairfall (60)</div><div class="ms-item" data-val="Anti Stretch Mark Roll On" onclick="msToggle('fProduct',this)">Anti Stretch Mark Roll On</div><div class="ms-item" data-val="BYOK" onclick="msToggle('fProduct',this)">BYOK</div><div class="ms-item" data-val="Benzoyl Peroxide Face Wash" onclick="msToggle('fProduct',this)">Benzoyl Peroxide Face Wash</div><div class="ms-item" data-val="Biotin Gummies Gummies (120)" onclick="msToggle('fProduct',this)">Biotin Gummies Gummies (120)</div><div class="ms-item" data-val="Biotin Hair Gummies (30)" onclick="msToggle('fProduct',this)">Biotin Hair Gummies (30)</div><div class="ms-item" data-val="Biotin Hair Gummies (60)" onclick="msToggle('fProduct',this)">Biotin Hair Gummies (60)</div><div class="ms-item" data-val="Biotin Hair Gummies (90)" onclick="msToggle('fProduct',this)">Biotin Hair Gummies (90)</div><div class="ms-item" data-val="Body Acne Pack" onclick="msToggle('fProduct',this)">Body Acne Pack</div><div class="ms-item" data-val="Body Acne Range" onclick="msToggle('fProduct',this)">Body Acne Range</div><div class="ms-item" data-val="Body Range" onclick="msToggle('fProduct',this)">Body Range</div><div class="ms-item" data-val="Calcium Gummies" onclick="msToggle('fProduct',this)">Calcium Gummies</div><div class="ms-item" data-val="Collagen Skin Gummies" onclick="msToggle('fProduct',this)">Collagen Skin Gummies</div><div class="ms-item" data-val="Dandruff and Hairfall Kit" onclick="msToggle('fProduct',this)">Dandruff and Hairfall Kit</div><div class="ms-item" data-val="De-tan Kit" onclick="msToggle('fProduct',this)">De-tan Kit</div><div class="ms-item" data-val="Detan Sunscreen Lotion" onclick="msToggle('fProduct',this)">Detan Sunscreen Lotion</div><div class="ms-item" data-val="Face Razor for Women" onclick="msToggle('fProduct',this)">Face Razor for Women</div><div class="ms-item" data-val="Glutathione Gummies (60)" onclick="msToggle('fProduct',this)">Glutathione Gummies (60)</div><div class="ms-item" data-val="Glycolic Acid Stick" onclick="msToggle('fProduct',this)">Glycolic Acid Stick</div><div class="ms-item" data-val="Hair Fall Control Mini" onclick="msToggle('fProduct',this)">Hair Fall Control Mini</div><div class="ms-item" data-val="Hair Fall Control Shampoo" onclick="msToggle('fProduct',this)">Hair Fall Control Shampoo</div><div class="ms-item" data-val="Hair Growth Pack" onclick="msToggle('fProduct',this)">Hair Growth Pack</div><div class="ms-item" data-val="Hair Growth Serum 30ml" onclick="msToggle('fProduct',this)">Hair Growth Serum 30ml</div><div class="ms-item" data-val="Hair Growth Serum Roll-On 50ml" onclick="msToggle('fProduct',this)">Hair Growth Serum Roll-On 50ml</div><div class="ms-item" data-val="Hair Gummies for Post-Pregnancy Hair Fall (30N)" onclick="msToggle('fProduct',this)">Hair Gummies for Post-Pregnancy Hair Fall (30N)</div><div class="ms-item" data-val="Hair Pro Pack (30N 50ml)" onclick="msToggle('fProduct',this)">Hair Pro Pack (30N 50ml)</div><div class="ms-item" data-val="Hair Strengthening Serum" onclick="msToggle('fProduct',this)">Hair Strengthening Serum</div><div class="ms-item" data-val="Hyaluronic Acid Body Wash" onclick="msToggle('fProduct',this)">Hyaluronic Acid Body Wash</div><div class="ms-item" data-val="Hyaluronic Acid Mousse" onclick="msToggle('fProduct',this)">Hyaluronic Acid Mousse</div><div class="ms-item" data-val="Ice Roller (1 N)" onclick="msToggle('fProduct',this)">Ice Roller (1 N)</div><div class="ms-item" data-val="Intense Dandruff Kit" onclick="msToggle('fProduct',this)">Intense Dandruff Kit</div><div class="ms-item" data-val="Keratin Conditioner" onclick="msToggle('fProduct',this)">Keratin Conditioner</div><div class="ms-item" data-val="Ketoconazole dandruff Shampoo 150ml" onclick="msToggle('fProduct',this)">Ketoconazole dandruff Shampoo 150ml</div><div class="ms-item" data-val="Magnesium Gummies Gummies (60)" onclick="msToggle('fProduct',this)">Magnesium Gummies Gummies (60)</div><div class="ms-item" data-val="Magnesium Gummies and Lotion (60)" onclick="msToggle('fProduct',this)">Magnesium Gummies and Lotion (60)</div><div class="ms-item" data-val="Multivitamin Gummies" onclick="msToggle('fProduct',this)">Multivitamin Gummies</div><div class="ms-item" data-val="Niacinamide Body Lotion" onclick="msToggle('fProduct',this)">Niacinamide Body Lotion</div><div class="ms-item" data-val="Other" onclick="msToggle('fProduct',this)">Other</div><div class="ms-item" data-val="Pigmentation Repair Cream" onclick="msToggle('fProduct',this)">Pigmentation Repair Cream</div><div class="ms-item" data-val="Postpartum Hairfall 1Month (60)" onclick="msToggle('fProduct',this)">Postpartum Hairfall 1Month (60)</div><div class="ms-item" data-val="Salicylic Acid Cleansing Balm" onclick="msToggle('fProduct',this)">Salicylic Acid Cleansing Balm</div><div class="ms-item" data-val="Salicylic Body Wash (60)" onclick="msToggle('fProduct',this)">Salicylic Body Wash (60)</div><div class="ms-item" data-val="Salicylic Ceramide BW" onclick="msToggle('fProduct',this)">Salicylic Ceramide BW</div><div class="ms-item" data-val="Scalp Massager" onclick="msToggle('fProduct',this)">Scalp Massager</div><div class="ms-item" data-val="Shilajit Gummies (60)" onclick="msToggle('fProduct',this)">Shilajit Gummies (60)</div><div class="ms-item" data-val="Strawberry Skin Exfoliation kit" onclick="msToggle('fProduct',this)">Strawberry Skin Exfoliation kit</div><div class="ms-item" data-val="Strawberry Skin Pack" onclick="msToggle('fProduct',this)">Strawberry Skin Pack</div><div class="ms-item" data-val="Strawberry Skin kit" onclick="msToggle('fProduct',this)">Strawberry Skin kit</div><div class="ms-item" data-val="Summer Essentials Kit" onclick="msToggle('fProduct',this)">Summer Essentials Kit</div><div class="ms-item" data-val="Suncare Duo for face &amp; body" onclick="msToggle('fProduct',this)">Suncare Duo for face &amp; body</div><div class="ms-item" data-val="Sunscreen spray" onclick="msToggle('fProduct',this)">Sunscreen spray</div><div class="ms-item" data-val="Super Blend" onclick="msToggle('fProduct',this)">Super Blend</div><div class="ms-item" data-val="Triple Milk BW" onclick="msToggle('fProduct',this)">Triple Milk BW</div><div class="ms-item" data-val="Ultra Light Sunscreen SPF50+" onclick="msToggle('fProduct',this)">Ultra Light Sunscreen SPF50+</div><div class="ms-item" data-val="UnderArm Pigmentation Kit" onclick="msToggle('fProduct',this)">UnderArm Pigmentation Kit</div><div class="ms-item" data-val="Underarms Range" onclick="msToggle('fProduct',this)">Underarms Range</div><div class="ms-item" data-val="Urea Skin heel Repair (60)" onclick="msToggle('fProduct',this)">Urea Skin heel Repair (60)</div><div class="ms-item" data-val="Winter Care" onclick="msToggle('fProduct',this)">Winter Care</div></div>
+      </div>
+    </div>
+    <div class="filter-group ms-wrap" id="ms-wrap-fTag-c">
+      <label>Tag</label>
+      <div class="ms-box" id="ms-box-fTag-c" onclick="msOpen(event,'fTag','-c')">
+        <span class="ms-display placeholder" id="ms-disp-fTag-c">All tags</span>
+        <i class="ti ti-chevron-down ms-arrow" id="ms-arr-fTag-c"></i>
+      </div>
+      <div class="ms-dropdown" id="ms-dd-fTag-c">
+        <div class="ms-search-wrap"><input class="ms-search" onclick="event.stopPropagation()" oninput="msSearch(this,'fTag')" placeholder="Search..."/></div>
+        <div class="ms-actions"><span onclick="msAll('fTag','-c')">Select all</span><span onclick="msClear('fTag','-c')">Clear</span></div>
+        <div class="ms-list" id="ms-list-fTag-c"><div class="ms-item" data-val="5%BW" onclick="msToggle('fTag',this)">5%BW</div><div class="ms-item" data-val="ASMRO" onclick="msToggle('fTag',this)">ASMRO</div><div class="ms-item" data-val="HG" onclick="msToggle('fTag',this)">HG</div><div class="ms-item" data-val="HGP" onclick="msToggle('fTag',this)">HGP</div><div class="ms-item" data-val="HGP - adv" onclick="msToggle('fTag',this)">HGP - adv</div><div class="ms-item" data-val="HGRO" onclick="msToggle('fTag',this)">HGRO</div><div class="ms-item" data-val="MG" onclick="msToggle('fTag',this)">MG</div><div class="ms-item" data-val="Others" onclick="msToggle('fTag',this)">Others</div><div class="ms-item" data-val="PPHG" onclick="msToggle('fTag',this)">PPHG</div><div class="ms-item" data-val="SABW" onclick="msToggle('fTag',this)">SABW</div><div class="ms-item" data-val="SPF" onclick="msToggle('fTag',this)">SPF</div><div class="ms-item" data-val="SSK" onclick="msToggle('fTag',this)">SSK</div><div class="ms-item" data-val="UARO" onclick="msToggle('fTag',this)">UARO</div><div class="ms-item" data-val="UFR" onclick="msToggle('fTag',this)">UFR</div><div class="ms-item" data-val="UL" onclick="msToggle('fTag',this)">UL</div><div class="ms-item" data-val="UPK" onclick="msToggle('fTag',this)">UPK</div></div>
+      </div>
+    </div>
+  </div>
+  <div style="background:#fff;border:1px solid #BFDBFE;border-radius:10px;padding:14px 16px;margin-bottom:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(26,86,219,0.07);">
+    <div style="font-size:11px;font-weight:700;color:#1A56DB;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap">Date range</div>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:6px;">
+        <label style="font-size:12px;color:#5B8DD9">From</label>
+        <input id="dateFrom-c" max="2026-07-05" min="2026-03-01" style="padding:6px 10px;border:1px solid #BFDBFE;border-radius:6px;font-size:13px;color:#0D1F3C;background:#F0F7FF;cursor:pointer" type="date" value="2026-03-01"/>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <label style="font-size:12px;color:#5B8DD9">To</label>
+        <input id="dateTo-c" max="2026-07-05" min="2026-03-01" style="padding:6px 10px;border:1px solid #BFDBFE;border-radius:6px;font-size:13px;color:#0D1F3C;background:#F0F7FF;cursor:pointer" type="date" value="2026-07-05"/>
+      </div>
+      <button onclick="resetDateRange()" style="font-size:12px;padding:6px 12px;border:1px solid #BFDBFE;border-radius:6px;background:#F0F7FF;cursor:pointer;color:#1A56DB;display:flex;align-items:center;gap:4px;font-weight:600"><i class="ti ti-refresh" style="font-size:13px"></i> Reset</button>
+    </div>
+    <span id="dateRangeInfo-c" style="font-size:12px;color:#378ADD;margin-left:auto;font-weight:500"></span>
+  </div>
 
 <div style="border-top:2px solid #BFDBFE;margin-bottom:20px;padding-top:20px;display:flex;align-items:center;justify-content:space-between">
     <div>
       <div style="font-size:15px;font-weight:600;color:#1a1a18;display:flex;align-items:center;gap:8px"><i class="ti ti-player-play"></i> Section 2 — Video Performance</div>
-      <div style="font-size:12px;color:#5B8DD9;margin-top:2px">Filtered by Date Range &amp; Month &amp; Tag from Section 1 filters above</div>
+      <div style="font-size:12px;color:#5B8DD9;margin-top:2px">Use the filters above to refine — synced with the Performance tab</div>
     </div>
     <div id="vidRowCount" style="font-size:11px;color:#888"></div>
-  </div>
-  <div class="table-card">
+  </div><div class="table-card">
     <div class="tbl-wrap">
       <table>
         <thead>
@@ -340,33 +423,39 @@ tr:hover td{background:#F5F9FF}
         <tbody id="vidBody"></tbody>
       </table>
     </div>
-  </div>
-</div>
-  </div>
-</div>
-
-<!-- Unified Insights Panel -->
-<div style="margin-top:28px;margin-bottom:8px">
+  </div><div style="margin-top:28px;margin-bottom:8px">
   <div style="background:#1A56DB;border-radius:12px 12px 0 0;padding:13px 18px;display:flex;align-items:center;justify-content:space-between">
     <div style="display:flex;align-items:center;gap:9px;color:#fff;font-size:14px;font-weight:700">
-      <i class="ti ti-sparkles"></i> Performance Insights
+      <i class="ti ti-sparkles"></i> Creative Insights
     </div>
-    <div style="font-size:11px;color:#93c5fd" id="insightsMeta">Select a product for full analysis · updates with date range</div>
+    <div id="insightsMetaCreatives" style="font-size:11px;color:#93c5fd">Select a product for full analysis · updates with date range</div>
   </div>
-  <div id="unifiedInsights" style="background:#fff;border:1px solid #BFDBFE;border-top:none;border-radius:0 0 12px 12px;min-height:120px">
+  <div id="unifiedInsightsCreatives" style="background:#fff;border:1px solid #BFDBFE;border-top:none;border-radius:0 0 12px 12px;min-height:120px">
     <div style="padding:24px;text-align:center;color:#93c5fd;font-size:13px">
       <i class="ti ti-filter" style="font-size:20px;display:block;margin-bottom:8px"></i>
-      Select a <b>Product</b> from the filters above to see full performance analysis for the selected date range.
+      Select a <b>Tag</b> from the filters above to see video performance analysis for the selected date range.
     </div>
   </div>
-</div>
+</div></div>
+
+  
+
+
+
+  
+
+  
+
+
+<!-- Unified Insights Panel -->
+
 
 <!-- Chart expand modal -->
 <div class="chart-modal-overlay" id="chartModal" onclick="closeChartModal(event)">
   <div class="chart-modal-box">
     <div class="chart-modal-header">
       <span id="modalTitle"></span>
-      <button onclick="closeChartModal(null)" style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1">&times;</button>
+      <button onclick="closeChartModal(null)" style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1">×</button>
     </div>
     <div class="chart-modal-legend" id="modalLegend"></div>
     <div style="position:relative;height:420px;padding:10px">
@@ -379,6 +468,17 @@ tr:hover td{background:#F5F9FF}
 // ── Global functions (no data dependency) ──
 let tC=null,clC=null,cvC=null,tagC=null,modalChart=null;
 
+function switchTab(tab){
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('tabPanel-'+tab).classList.add('active');
+  document.getElementById('tabBtn-'+tab).classList.add('active');
+  // Charts can render incorrectly while their container was display:none; force a resize once visible.
+  if(tab==='performance'){
+    [tC,clC,cvC,tagC].forEach(function(c){ if(c) c.resize(); });
+  }
+}
+
 
 function fmtN(v,dec){
   dec=dec||0;
@@ -389,16 +489,18 @@ function fmtN(v,dec){
 }
 
 var MS_SEL={fMonth:new Set(),fCampType:new Set(),fProduct:new Set(),fTag:new Set()};
+var MS_SUFFIXES=['','-c']; // '' = Performance tab controls, '-c' = Creatives tab controls
 
-function msOpen(e,fid){
+function msOpen(e,fid,sfx){
+  sfx=sfx||'';
   e.stopPropagation();
-  var dd=document.getElementById('ms-dd-'+fid);
+  var dd=document.getElementById('ms-dd-'+fid+sfx);
   var isOpen=dd.classList.contains('open');
   document.querySelectorAll('.ms-dropdown.open').forEach(function(d){d.classList.remove('open');});
   document.querySelectorAll('.ms-arrow.open').forEach(function(a){a.classList.remove('open');});
   if(!isOpen){
     dd.classList.add('open');
-    document.getElementById('ms-arr-'+fid).classList.add('open');
+    document.getElementById('ms-arr-'+fid+sfx).classList.add('open');
   }
 }
 document.addEventListener('click',function(){
@@ -406,47 +508,66 @@ document.addEventListener('click',function(){
   document.querySelectorAll('.ms-arrow.open').forEach(function(a){a.classList.remove('open');});
 });
 
-function msToggle(fid,el){
+function msSyncSelectedClasses(fid){
+  // Make sure every copy's item list reflects the current MS_SEL state (e.g. after the other copy changed it)
+  var sel=MS_SEL[fid];
+  MS_SUFFIXES.forEach(function(sfx){
+    var list=document.getElementById('ms-list-'+fid+sfx);
+    if(!list) return;
+    list.querySelectorAll('.ms-item').forEach(function(el){
+      el.classList.toggle('selected', sel.has(el.getAttribute('data-val')));
+    });
+  });
+}
+
+function msToggle(fid,el,sfx){
+  sfx=sfx||'';
   var v=el.getAttribute('data-val');
   var sel=MS_SEL[fid];
-  if(sel.has(v)){sel.delete(v);el.classList.remove('selected');}
-  else{sel.add(v);el.classList.add('selected');}
+  if(sel.has(v)){sel.delete(v);}
+  else{sel.add(v);}
+  msSyncSelectedClasses(fid);
   msUpdateDisplay(fid);
   refresh();
 }
-function msAll(fid){
-  var list=document.getElementById('ms-list-'+fid);
+function msAll(fid,sfx){
+  sfx=sfx||'';
+  var list=document.getElementById('ms-list-'+fid+sfx);
   list.querySelectorAll('.ms-item:not(.hidden)').forEach(function(el){
     MS_SEL[fid].add(el.getAttribute('data-val'));
-    el.classList.add('selected');
   });
+  msSyncSelectedClasses(fid);
   msUpdateDisplay(fid);refresh();
 }
-function msClear(fid){
+function msClear(fid,sfx){
   MS_SEL[fid].clear();
-  document.getElementById('ms-list-'+fid).querySelectorAll('.ms-item').forEach(function(el){el.classList.remove('selected');});
+  msSyncSelectedClasses(fid);
   msUpdateDisplay(fid);refresh();
 }
 function msSearch(input,fid){
   var q=input.value.toLowerCase();
-  document.getElementById('ms-list-'+fid).querySelectorAll('.ms-item').forEach(function(el){
+  var list=input.closest('.ms-dropdown').querySelector('.ms-list');
+  list.querySelectorAll('.ms-item').forEach(function(el){
     el.classList.toggle('hidden',q&&el.textContent.toLowerCase().indexOf(q)===-1);
   });
 }
 function msUpdateDisplay(fid){
   var sel=MS_SEL[fid];
-  var disp=document.getElementById('ms-disp-'+fid);
   var PLACEHOLDERS={fMonth:'All months',fCampType:'All types',fProduct:'All products',fTag:'All tags'};
-  if(sel.size===0){disp.innerHTML=PLACEHOLDERS[fid];disp.className='ms-display placeholder';return;}
-  disp.className='ms-display';
-  if(sel.size<=3){
-    disp.innerHTML=[...sel].map(function(v){
-      var el=document.querySelector('#ms-list-'+fid+' [data-val="'+v.replace(/"/g,'\\"')+'"]');
-      return'<span class="ms-tag">'+(el?el.textContent:v)+'</span>';
-    }).join('');
-  } else {
-    disp.innerHTML='<span class="ms-tag">'+sel.size+' selected</span>';
-  }
+  MS_SUFFIXES.forEach(function(sfx){
+    var disp=document.getElementById('ms-disp-'+fid+sfx);
+    if(!disp) return;
+    if(sel.size===0){disp.innerHTML=PLACEHOLDERS[fid];disp.className='ms-display placeholder';return;}
+    disp.className='ms-display';
+    if(sel.size<=3){
+      disp.innerHTML=[...sel].map(function(v){
+        var el=document.querySelector('#ms-list-'+fid+sfx+' [data-val="'+v.replace(/"/g,'\\"')+'"]');
+        return'<span class="ms-tag">'+(el?el.textContent:v)+'</span>';
+      }).join('');
+    } else {
+      disp.innerHTML='<span class="ms-tag">'+sel.size+' selected</span>';
+    }
+  });
 }
 
 function getFiltered(){
@@ -466,13 +587,20 @@ function updateDateRangeInfo(){
   var df=document.getElementById('dateFrom').value;
   var dt=document.getElementById('dateTo').value;
   var info=document.getElementById('dateRangeInfo');
+  var infoC=document.getElementById('dateRangeInfo-c');
+  var text='';
   if(df&&dt&&df<=dt){
     var d1=new Date(df),d2=new Date(dt);
     var days=Math.round((d2-d1)/(864e5))+1;
-    info.textContent=days+' day'+(days!==1?'s':'')+' selected';
-  } else {
-    info.textContent='';
+    text=days+' day'+(days!==1?'s':'')+' selected';
   }
+  if(info) info.textContent=text;
+  if(infoC) infoC.textContent=text;
+  // keep the Creatives copy of the date pickers in sync with the primary
+  var dfC=document.getElementById('dateFrom-c');
+  var dtC=document.getElementById('dateTo-c');
+  if(dfC && dfC.value!==df) dfC.value=df;
+  if(dtC && dtC.value!==dt) dtC.value=dt;
 }
 
 function resetDateRange(){
@@ -895,6 +1023,18 @@ document.getElementById('dateTo').addEventListener('change',function(){
   if(df&&this.value<df){document.getElementById('dateFrom').value=this.value;}
   updateDateRangeInfo();refresh();
 });
+(function(){
+  var dfC=document.getElementById('dateFrom-c');
+  var dtC=document.getElementById('dateTo-c');
+  if(dfC) dfC.addEventListener('change',function(){
+    document.getElementById('dateFrom').value=this.value;
+    document.getElementById('dateFrom').dispatchEvent(new Event('change'));
+  });
+  if(dtC) dtC.addEventListener('change',function(){
+    document.getElementById('dateTo').value=this.value;
+    document.getElementById('dateTo').dispatchEvent(new Event('change'));
+  });
+})();
 document.getElementById('vidSortHead').addEventListener('click',function(e){
   var th=e.target.closest('th[data-sort]');
   if(th) setVidSort(th.getAttribute('data-sort'));
@@ -918,7 +1058,9 @@ function fmt(v,dec){
 
 function renderInsights(){
   var el = document.getElementById('unifiedInsights');
+  var elC = document.getElementById('unifiedInsightsCreatives');
   var meta = document.getElementById('insightsMeta');
+  var metaC = document.getElementById('insightsMetaCreatives');
   if(!el) return;
 
   
@@ -935,12 +1077,16 @@ function renderInsights(){
 
   if(MS_SEL.fTag.size===0){
     if(meta) meta.textContent = 'Select a tag for full analysis · '+dateLabel;
-    el.innerHTML='<div style="padding:24px;text-align:center;color:#93c5fd;font-size:13px"><i class="ti ti-filter" style="font-size:20px;display:block;margin-bottom:8px"></i>Select a <b>Tag</b> from the filters above to see full performance analysis.</div>';
+    if(metaC) metaC.textContent = 'Select a tag for full analysis · '+dateLabel;
+    var emptyMsg='<div style="padding:24px;text-align:center;color:#93c5fd;font-size:13px"><i class="ti ti-filter" style="font-size:20px;display:block;margin-bottom:8px"></i>Select a <b>Tag</b> from the filters above to see full performance analysis.</div>';
+    el.innerHTML=emptyMsg;
+    if(elC) elC.innerHTML=emptyMsg;
     return;
   }
 
   var products = Array.from(MS_SEL.fTag);
   if(meta) meta.textContent = products.join(', ')+' · '+dateLabel;
+  if(metaC) metaC.textContent = products.join(', ')+' · '+dateLabel;
 
   var filtered   = getFiltered();
   var vidFiltered= VID_RAW ? getVidFiltered() : [];
@@ -972,33 +1118,41 @@ function renderInsights(){
   }
 
   var html='';
+  var htmlC='';
 
   products.forEach(function(prodName, pi){
     var prod = pmap[prodName];
-    if(!prod){ html+='<div style="padding:20px;color:#888">No campaign data for '+prodName+' in selected range.</div>'; return; }
+    if(!prod){
+      var noDataMsg='<div style="padding:20px;color:#888">No campaign data for '+prodName+' in selected range.</div>';
+      html+=noDataMsg; htmlC+=noDataMsg;
+      return;
+    }
 
     var roas = prod.co>0 ? prod.cvl/prod.co : 0;
     var cac  = prod.cv>0 ? prod.co/prod.cv  : 0;
     var prodVids = vidFiltered.filter(function(r){ return r.t===prodName; });
 
-    if(pi>0) html+='<div style="border-top:3px solid #EBF3FD;margin:0 18px"></div>';
+    if(pi>0){
+      var divider='<div style="border-top:3px solid #EBF3FD;margin:0 18px"></div>';
+      html+=divider; htmlC+=divider;
+    }
+
+    // Product header (shown on both tabs, built once and reused)
+    var prodHeader='<div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid #EBF3FD">'
+      +'<div style="background:#1A56DB22;color:#1A56DB;border-radius:6px;padding:4px 12px;font-size:14px;font-weight:800">'+prodName+'</div>'
+      +'<div style="font-size:13px;color:#334155">Spend: <b>'+fmt(prod.co)+'</b></div>'
+      +'<div style="font-size:13px;color:'+(roas>=1?'#065F46':'#991B1B')+'">ROAS: <b>'+roas.toFixed(2)+'x</b> '+roasChip(roas)+'</div>'
+      +'<div style="font-size:13px;color:#334155">Conv: <b>'+Math.round(prod.cv)+'</b></div>'
+      +'<div style="font-size:13px;color:#334155">CAC: <b>'+(cac?fmt(cac):'—')+'</b></div>'
+      +'</div>';
 
     html+='<div style="padding:20px 22px">';
+    html+=prodHeader;
+    html+='<div>'; // single column now on Performance tab (was left col of a 2-col grid)
 
-    // Product header
-    html+='<div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid #EBF3FD">';
-    html+='<div style="background:#1A56DB22;color:#1A56DB;border-radius:6px;padding:4px 12px;font-size:14px;font-weight:800">'+prodName+'</div>';
-    html+='<div style="font-size:13px;color:#334155">Spend: <b>'+fmt(prod.co)+'</b></div>';
-    html+='<div style="font-size:13px;color:'+(roas>=1?'#065F46':'#991B1B')+'">ROAS: <b>'+roas.toFixed(2)+'x</b> '+roasChip(roas)+'</div>';
-    html+='<div style="font-size:13px;color:#334155">Conv: <b>'+Math.round(prod.cv)+'</b></div>';
-    html+='<div style="font-size:13px;color:#334155">CAC: <b>'+(cac?fmt(cac):'—')+'</b></div>';
-    html+='</div>';
-
-    // Two-column layout for sections
-    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:22px">';
-
-    // ── Left column: 1+2+3 ──
-    html+='<div>';
+    htmlC+='<div style="padding:20px 22px">';
+    htmlC+=prodHeader;
+    htmlC+='<div>'; // single column on Creatives tab
 
     // Section 1: Week Overview
     var dayVals = allDates.map(function(d){ return prod.days[d]||{co:0,cv:0,cvl:0}; });
@@ -1081,14 +1235,11 @@ function renderInsights(){
     });
     html+='</div>';
 
-    html+='</div>'; // end left col
+    html+='</div>'; // end column
 
-    // ── Right column: 4+5 ──
-    html+='<div>';
-
-    // Section 4: Top 3 Videos Daily Trend
-    html+='<div style="margin-bottom:16px">';
-    html+='<div style="font-size:11px;font-weight:700;color:#1A56DB;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px">4. Top 3 Videos — Daily Trend</div>';
+    // ── Creatives tab: Section 4 ──
+    htmlC+='<div style="margin-bottom:16px">';
+    htmlC+='<div style="font-size:11px;font-weight:700;color:#1A56DB;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px">4. Top 3 Videos — Daily Trend</div>';
 
     if(prodVids.length){
       var vidMap={};
@@ -1127,31 +1278,31 @@ function renderInsights(){
         var vrSignal=vrTrend>15&&rDrop<-20?' <span style="font-size:11px;color:#991B1B;font-style:italic">VR rising but ROAS falling — possible LP issue.</span>':'';
         var watchStr=v.li?(' <a href="'+v.li+'" target="_blank" style="background:#FF0000;color:#fff;border-radius:3px;padding:1px 6px;font-size:10px;text-decoration:none;font-style:normal">▶ Watch</a>'):'';
 
-        html+='<div style="margin-bottom:8px;padding:9px 11px;background:#F8FBFF;border-radius:7px;border:1px solid #EBF3FD">';
-        html+='<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:4px">';
-        html+='<div style="font-size:12px;font-weight:600;color:#0D1F3C;line-height:1.4;flex:1">'+v.ti+'</div>'+watchStr;
-        html+='</div>';
-        html+='<div style="font-size:11.5px;color:#334155;margin-bottom:5px"><span style="color:'+trendCol+';font-weight:600">'+trendLabel+'.</span>'+(peakStr?' Peak: '+peakStr+'.':'')+' '+(worstStr?'Worst: '+worstStr+'.':'')+vrSignal+'</div>';
+        htmlC+='<div style="margin-bottom:8px;padding:9px 11px;background:#F8FBFF;border-radius:7px;border:1px solid #EBF3FD">';
+        htmlC+='<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:4px">';
+        htmlC+='<div style="font-size:12px;font-weight:600;color:#0D1F3C;line-height:1.4;flex:1">'+v.ti+'</div>'+watchStr;
+        htmlC+='</div>';
+        htmlC+='<div style="font-size:11.5px;color:#334155;margin-bottom:5px"><span style="color:'+trendCol+';font-weight:600">'+trendLabel+'.</span>'+(peakStr?' Peak: '+peakStr+'.':'')+' '+(worstStr?'Worst: '+worstStr+'.':'')+vrSignal+'</div>';
         // Sparkline
         var sparkMax=Math.max.apply(null,rSeq.concat([0.01]));
-        html+='<div style="display:flex;gap:2px;align-items:flex-end;height:22px">';
+        htmlC+='<div style="display:flex;gap:2px;align-items:flex-end;height:22px">';
         allDates.forEach(function(d,di){
           var dd=v.days[d];
           var r=dd&&dd.co>0?dd.cvl/dd.co:null;
           var h=r!==null?Math.max(2,Math.round(r/sparkMax*20)):0;
           var c=r===null?'#E5E7EB':(r>=1.5?'#1D9E75':(r>=1?'#378ADD':'#EF9F27'));
-          html+='<div title="'+d.slice(5)+': '+(r!==null?r.toFixed(2)+'x':'no data')+'" style="flex:1;height:'+(r!==null?h+'px':'3px')+';background:'+c+';border-radius:2px 2px 0 0;opacity:'+(r!==null?'1':'0.2')+'"></div>';
+          htmlC+='<div title="'+d.slice(5)+': '+(r!==null?r.toFixed(2)+'x':'no data')+'" style="flex:1;height:'+(r!==null?h+'px':'3px')+';background:'+c+';border-radius:2px 2px 0 0;opacity:'+(r!==null?'1':'0.2')+'"></div>';
         });
-        html+='</div>';
-        html+='<div style="display:flex;justify-content:space-between;font-size:10px;color:#aaa;margin-top:2px"><span>'+allDates[0].slice(5)+'</span><span>'+allDates[allDates.length-1].slice(5)+'</span></div>';
-        html+='</div>';
+        htmlC+='</div>';
+        htmlC+='<div style="display:flex;justify-content:space-between;font-size:10px;color:#aaa;margin-top:2px"><span>'+allDates[0].slice(5)+'</span><span>'+allDates[allDates.length-1].slice(5)+'</span></div>';
+        htmlC+='</div>';
       });
     } else {
-      html+='<div style="padding:12px;color:#93c5fd;font-size:12px;background:#F8FBFF;border-radius:6px">No video data for '+prodName+' in selected range.</div>';
+      htmlC+='<div style="padding:12px;color:#93c5fd;font-size:12px;background:#F8FBFF;border-radius:6px">No video data for '+prodName+' in selected range.</div>';
     }
-    html+='</div>';
+    htmlC+='</div>'; // end Section 4 wrapper
 
-    // Section 5: Key Actions
+    // Section 5: Key Actions (shown on both Performance and Creatives tabs)
     var actions=[];
     if(worstBig&&worstBig.roas<1)
       actions.push('Pause <b>'+worstBig.ca.replace(/_/g,' ')+'</b> — '+fmt(worstBig.co)+' at '+worstBig.roas.toFixed(2)+'x ROAS is the single biggest waste.');
@@ -1169,21 +1320,27 @@ function renderInsights(){
     }
     if(!actions.length) actions.push('Maintain current allocation — product is performing within target. Monitor for sustained ROAS above 1.5x.');
 
-    html+='<div>';
-    html+='<div style="font-size:11px;font-weight:700;color:#1A56DB;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px">5. Key Actions</div>';
+    var keyActionsHtml='<div style="margin-top:16px">';
+    keyActionsHtml+='<div style="font-size:11px;font-weight:700;color:#1A56DB;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px">5. Key Actions</div>';
     actions.forEach(function(a,i){
-      html+='<div style="display:flex;gap:10px;margin-bottom:8px;padding:9px 11px;background:#EBF3FD;border-radius:7px;font-size:12px;color:#1e293b;line-height:1.55;align-items:flex-start">';
-      html+='<span style="background:#1A56DB;color:#fff;border-radius:50%;min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">'+(i+1)+'</span>';
-      html+='<span>'+a+'</span></div>';
+      keyActionsHtml+='<div style="display:flex;gap:10px;margin-bottom:8px;padding:9px 11px;background:#EBF3FD;border-radius:7px;font-size:12px;color:#1e293b;line-height:1.55;align-items:flex-start">';
+      keyActionsHtml+='<span style="background:#1A56DB;color:#fff;border-radius:50%;min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">'+(i+1)+'</span>';
+      keyActionsHtml+='<span>'+a+'</span></div>';
     });
-    html+='</div>';
+    keyActionsHtml+='</div>';
 
-    html+='</div>'; // end right col
-    html+='</div>'; // end grid
+    html+=keyActionsHtml;
+    htmlC+=keyActionsHtml;
+
+    html+='</div>'; // end column
     html+='</div>'; // end product section
+
+    htmlC+='</div>'; // end column
+    htmlC+='</div>'; // end product section
   });
 
   el.innerHTML=html;
+  if(elC) elC.innerHTML=htmlC;
 }
 
 
@@ -1273,7 +1430,7 @@ document.addEventListener('keydown',function(e){
   <div class="chart-modal-box">
     <div class="chart-modal-header">
       <span id="modalTitle"></span>
-      <button onclick="closeChartModal(null)" style="background:none;border:none;color:#fff;font-size:20px;cursor:pointer;line-height:1">&times;</button>
+      <button onclick="closeChartModal(null)" style="background:none;border:none;color:#fff;font-size:20px;cursor:pointer;line-height:1">×</button>
     </div>
     <div class="chart-modal-legend" id="modalLegend"></div>
     <div style="position:relative;height:420px;padding:10px">
@@ -1281,5 +1438,6 @@ document.addEventListener('keydown',function(e){
     </div>
   </div>
 </div>
-</body>
-</html>
+
+
+</body></html>
